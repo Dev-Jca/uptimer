@@ -3,7 +3,9 @@ import 'package:uptimer/location_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final timeData;
-  const HomeScreen({required this.timeData, Key? key}) : super(key: key);
+  final String assetName;
+  const HomeScreen({required this.timeData, required this.assetName, Key? key})
+      : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,6 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String? date;
   String? time;
   String? dayOfWeek;
+  int? hour;
 
   @override
   void initState() {
@@ -27,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       date = widget.timeData['date'];
       time = widget.timeData['time'];
       dayOfWeek = widget.timeData['dayOfWeek'];
+      hour = widget.timeData['hour'];
     });
   }
 
@@ -36,10 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Container(
           width: double.infinity,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage('images/sunrise.jpg'),
+              image: AssetImage(hour! > 6 && hour! <= 20
+                  ? 'images/day.jpg'
+                  : 'images/night.jpg'),
             ),
           ),
           child: Container(
@@ -58,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                     child: Text(
-                      'Choose your location',
+                      'Pick a location',
                       style: TextStyle(
                         color: Colors.white.withOpacity(0.6),
                         fontWeight: FontWeight.bold,
@@ -86,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       height: 50,
                       width: 100,
-                      child: Image.asset('images/lagos.jpg'),
+                      child: Image.asset(widget.assetName),
                     )
                   ],
                 ),
